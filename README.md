@@ -1,2 +1,11 @@
-# MLG382_Project1
-A machine learning &amp; deep learning project.
+# MLG382_Project1 - 🎓 BrightPath Academy
+
+# Members
+
+### Trent Evans
+
+### Demica Smit
+
+### Bianca Long
+
+### Jade Riley
