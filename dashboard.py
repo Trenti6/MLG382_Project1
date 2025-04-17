@@ -6,6 +6,7 @@ import plotly.graph_objects as go
 import pandas as pd
 import joblib
 import seaborn as sns
+import datetime
 
 
 # Load actual student performance dataset
@@ -74,7 +75,7 @@ home_layout = html.Div([
     html.Button("📄 Generate Bright path accademy Report", id="generate-report-btn2", n_clicks=0, className="btn"),
     dcc.Download(id="download-report2"),
 
-])
+], className="center-content")
 
 analytics_layout = html.Div([
     html.H2("Data Visualization Selector", className="section-title"),
@@ -144,10 +145,13 @@ feedback_layout = html.Div([
 ])
 
 prediction_layout = html.Div([
-    html.H2("Student Performance Prediction", className="section-title"),
+    html.H2("Student Performance Prediction - Using our best performing model (RandomForest)", className="section-title"),
     html.Div([
         dcc.Input(id='input-studytime', type='number', placeholder='Study Time Weekly (hrs)', className='input'),
         dcc.Input(id='input-gpa', type='number', placeholder='GPA', className='input'),
+        dcc.Input(type='number', placeholder='Age', className='input'),
+        dcc.Input(type='number', placeholder='Absenses', className='input'),
+        dcc.Input(type='number', placeholder='Extracurricular', className='input'),
         html.Button('Predict Grade Class', id='predict-btn', n_clicks=0, className='btn'),
         html.Div(id='prediction-output', style={'marginTop': '20px'})
     ])
@@ -185,6 +189,22 @@ app.index_string = '''
         .main.dark .dash-dropdown .Select-value-label {
             color: white !important;
         }
+        .center-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 40px;
+    background-color: rgba(255, 255, 255, 0.85); /* slight transparency */
+    border-radius: 10px;
+    max-width: 900px;
+    margin: 50px auto;
+    box-shadow: 0px 0px 20px rgba(0,0,0,0.1);
+
+}
+
+
     </style>
 </head>
 <body>
@@ -215,8 +235,18 @@ def toggle_dark_mode(n_clicks):
 )
 def submit_feedback(n_clicks, name, comment):
     if not name or not comment:
-        return html.Div("\u274c Please complete all fields.", style={'color': 'red'})
-    return html.Div(f"\u2705 Thank you, {name}, for your feedback!", style={'color': 'green'})
+        return html.Div("❌ Please complete all fields.", style={'color': 'red'})
+
+    # Append feedback to a text file
+    try:
+        with open("user_feedback.txt", "a", encoding="utf-8") as f:
+            f.write(f"--- Feedback Submitted on {datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')} ---\n")
+            f.write(f"Name: {name}\n")
+            f.write(f"Comment: {comment}\n\n")
+    except Exception as e:
+        return html.Div(f"⚠️ Error saving feedback: {e}", style={'color': 'red'})
+
+    return html.Div(f"✅ Thank you, {name}, for your feedback!", style={'color': 'green'})
 
 @app.callback(
     Output('prediction-output', 'children'),
@@ -245,9 +275,38 @@ def predict_grade(n_clicks, studytime, gpa, ):
         # Make prediction
         prediction = rf_model.predict(input_for_model)[0]
 
-        return html.Div([
-            html.H4(f"Predicted Grade Class: {prediction}", style={'color': 'green'})
+
+        if prediction == 0:
+            score = "A - Student is doing great"
+            return html.Div([
+            html.H4(f"Predicted Grade Class: {prediction}", style={'color': 'green'}),
+            html.H4(f"Student official grade: {score}")
         ])
+        elif prediction == 1:
+            score = "B - Student is doing well"
+            return html.Div([
+            html.H4(f"Predicted Grade Class: {prediction}", style={'color': 'green'}),
+            html.H4(f"Student official grade: {score}")
+        ])
+        elif prediction == 2:
+            score = "C - Student is Average"
+            return html.Div([
+            html.H4(f"Predicted Grade Class: {prediction}", style={'color': 'green'}),
+            html.H4(f"Student official grade: {score}")
+        ])
+        elif prediction == 3:
+            score = "D - Student is on the verge of failing"
+            return html.Div([
+            html.H4(f"Predicted Grade Class: {prediction}", style={'color': 'green'}),
+            html.H4(f"Student official grade: {score}")
+        ])
+        elif prediction == 4:
+            score = "F - Student has failed, Please seek student extra help !!!"
+            return html.Div([
+            html.H4(f"Predicted Grade Class: {prediction}", style={'color': 'red'}),
+            html.H4(f"Student official grade: {score}")
+        ])
+
     except Exception as e:
         return html.Div(f"Error making prediction: {e}", style={'color': 'red'})
 
@@ -290,7 +349,7 @@ def download_summary_report(n_clicks):
     prevent_initial_call=True
 )
 def download_brightpath_report(n_clicks):
-    return dcc.send_file("BrightPath_Report.pdf")
+    return dcc.send_file("BrightPathAcademy_Report.pdf")
 
 # -------------------- Run App -------------------- #
 if __name__ == "__main__":
