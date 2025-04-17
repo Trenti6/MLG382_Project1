@@ -1,4 +1,4 @@
-# Enhanced Dash App with Visualization Toggle and ML Algorithm Comparison
+
 import dash
 from dash import html, dcc, Input, Output, State, dash_table,ctx
 import plotly.express as px
@@ -10,9 +10,9 @@ import datetime
 
 
 # Load actual student performance dataset
-df = pd.read_csv("Student_performance_data .csv")
-rf_model = joblib.load("rf_model.pkl")
-scaler = joblib.load("scaler.pkl")
+df = pd.read_csv("DataSets/Student_performance_data .csv")
+rf_model = joblib.load("BestModel/rf_model.pkl")
+scaler = joblib.load("BestModel/scaler.pkl")
 
 # Example results from different ML models
 ml_results = pd.DataFrame({
@@ -341,7 +341,7 @@ def update_summary(theme_class):
     prevent_initial_call=True
 )
 def download_summary_report(n_clicks):
-    return dcc.send_file("summaryReport.pdf")
+    return dcc.send_file("Reports/summaryReport.pdf")
 
 @app.callback(
     Output("download-report2", "data"),
@@ -349,7 +349,7 @@ def download_summary_report(n_clicks):
     prevent_initial_call=True
 )
 def download_brightpath_report(n_clicks):
-    return dcc.send_file("BrightPathAcademy_Report.pdf")
+    return dcc.send_file("Reports/BrightPathAcademy_Report.pdf")
 
 # -------------------- Run App -------------------- #
 if __name__ == "__main__":

@@ -11,21 +11,25 @@
 ### Jade Riley
 
 
-### If you dont have a virtual environment for this project - create one ! If you already have one created for this project and have installed dependancies Skip step 1 and 3
+# Setting up the project
 
+### 1. Change into project directory after cloning it
+    cd MLG382_Project1
 
-# 1. Create the virtual environment (NB - make sure you are in projects directory)
+### 2. Create the virtual environment (NB - make sure you are in projects directory)
     python -m venv venv
 
-# 2. Activate the virtual environment
+### 3. Activate the virtual environment
 *On Windows*:
 venv\Scripts\activate
 
 *On macOS/Linux:*
 source venv/bin/activate
 
-# 3. Install dependancies to venv
+### 4. Install dependancies to venv(takes a few minutes so be patient)
     pip install -r requirements.txt
 
-# To run dash app (Make sure venv is activated)
+
+# To run dash app (Make sure venv is activated and you are in the projects directory (MLG382_Project1))
     python dashboard.py
+    
