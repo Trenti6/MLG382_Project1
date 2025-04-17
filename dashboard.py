@@ -6,8 +6,7 @@ import plotly.graph_objects as go
 import pandas as pd
 import joblib
 import seaborn as sns
-import base64
-import io
+
 
 # Load actual student performance dataset
 df = pd.read_csv("Student_performance_data .csv")
