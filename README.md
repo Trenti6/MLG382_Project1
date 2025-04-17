@@ -25,7 +25,7 @@ venv\Scripts\activate
 source venv/bin/activate
 
 # 3. Install dependancies to venv
-    pip install requirements.txt
+    pip install -r requirements.txt
 
 # To run dash app (Make sure venv is activated)
     python dashboard.py
