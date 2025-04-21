@@ -28,7 +28,7 @@ server = app.server
 # -------------------- Layout -------------------- #
 app.layout = html.Div([
     dcc.Location(id='url'),
-    html.Div(id="theme-container", className="main", children=[
+    html.Div(id="theme-container", className="main dark", children=[
         html.Div([
             html.H2("\ud83d\udcca Dashboard", className="title"),
             dcc.Link('Home', href='/', className='nav-link'),
@@ -61,24 +61,36 @@ def display_page(pathname):
 
 # -------------------- Page Layouts -------------------- #
 home_layout = html.Div([
-    html.H1("Welcome to our Machine Learning 382 Project ! ", className="page-title"),
-    html.H3("Group members are:", className="page-desc"),
-    html.Ul([
-        html.Li("Trent Evans"),
-        html.Li("Demica Smit"),
-        html.Li("Bianca Long"),
-        html.Li("Jade Riley")
+    html.Div(className="hero-section", children=[
+        html.H1("🚀 BrightPath Academy - ML Project", className="hero-title"),
+        html.P("Predicting and enhancing student performance using machine learning algorithms.", className="hero-subtitle"),
     ]),
-    html.P("In this project we used machine learning & deep algorithms to solve the BrightPath Academy problem..."),
-    html.Button("📄 Generate summary Report", id="generate-report-btn", n_clicks=0, className="btn"),
-    dcc.Download(id="download-report"),
-    html.Button("📄 Generate Bright path accademy Report", id="generate-report-btn2", n_clicks=0, className="btn"),
-    dcc.Download(id="download-report2"),
-
+    html.Div(className="team-section", children=[
+        html.H2("👨‍👩‍👧‍👦 Meet the Team", className="section-title"),
+        html.Div(className="team-grid", children=[
+            html.Div(className="card", children=[html.H4("Trent Evans"), html.P("xxx")]),
+            html.Div(className="card", children=[html.H4("Demica Smit"), html.P("xxx")]),
+            html.Div(className="card", children=[html.H4("Bianca Long"), html.P("xxx")]),
+            html.Div(className="card", children=[html.H4("Jade Riley"), html.P("xxx")]),
+        ])
+    ]),
+    html.Div(className="summary-section", children=[
+        html.H2("📄 Project Summary", className="section-title"),
+        html.P("We built a predictive ML model to help BrightPath Academy identify students at risk and provide timely intervention."),
+        html.Div(className="button-group", children=[
+            html.Button("📄 Download Summary Report", id="generate-report-btn", n_clicks=0, className="btn"),
+            dcc.Download(id="download-report"),
+            html.Button("📄 BrightPath Academy Report", id="generate-report-btn2", n_clicks=0, className="btn"),
+            dcc.Download(id="download-report2"),
+        ])
+    ])
 ], className="center-content")
 
 analytics_layout = html.Div([
-    html.H2("Data Visualization Selector", className="section-title"),
+    html.Div(className='card-section', children=[
+        html.H2("Data Visualization Selector", className="section-title"),
+        
+html.Div(className='dash-dropdown', children=[
     dcc.Dropdown(
         id='viz-type',
         options=[
@@ -88,30 +100,33 @@ analytics_layout = html.Div([
             {'label': 'Heatmap', 'value': 'heatmap'}
         ],
         value='scatter',
-        className='input',
-        style={'color': 'black'}
-    ),
-    dcc.Graph(id='dynamic-graph'),
-
-    html.H2("Comparision of our ML Algorithms", className="section-title"),
-    dcc.Graph(
-        figure=go.Figure(
-            data=[
-                go.Bar(name='Train Accuracy', x=ml_results['Model'], y=ml_results['Train Accuracy']),
-                go.Bar(name='Test Accuracy', x=ml_results['Model'], y=ml_results['Test Accuracy'])
-            ],
-            layout=go.Layout(
-                barmode='group',
-                template='plotly_dark',
-                title='Comparison of ML Model Performance'
+        className='input'
+    )
+])
+,
+        dcc.Graph(id='dynamic-graph')
+    ]),
+    html.Div(className='card-section', children=[
+        html.H2("Comparision of our ML Algorithms", className="section-title"),
+        dcc.Graph(
+            figure=go.Figure(
+                data=[
+                    go.Bar(name='Train Accuracy', x=ml_results['Model'], y=ml_results['Train Accuracy']),
+                    go.Bar(name='Test Accuracy', x=ml_results['Model'], y=ml_results['Test Accuracy'])
+                ],
+                layout=go.Layout(
+                    barmode='group',
+                    template='plotly_dark',
+                    title='Comparison of ML Model Performance'
+                )
             )
         )
-    )
+    ])
 ])
 
 info_layout = html.Div([
-    html.H2("Dataset Information & Summary", className="section-title"),
-    html.Div([
+    html.Div(className='card-section', children=[
+        html.H2("Dataset Information & Summary", className="section-title"),
         html.H4("Preview of Dataset:"),
         dash_table.DataTable(
             data=df.to_dict('records'),
@@ -128,34 +143,36 @@ info_layout = html.Div([
             ],
             page_size=10
         ),
-
         html.H4("Statistical Summary of cleaned dataset:"),
         html.Div(id="summary-output")
     ])
 ])
 
 feedback_layout = html.Div([
-    html.H2("User Feedback Form", className="section-title"),
-    html.Div([
+    html.Div(className='card-section feedback-container', children=[
+        html.H2("User Feedback Form", className="section-title"),
         dcc.Input(id='username', type='text', placeholder='Your Name', className='input'),
         dcc.Textarea(id='comments', placeholder='Enter feedback...', className='input', style={'height': '100px'}),
         html.Button('Submit', id='submit-feedback', n_clicks=0, className='btn'),
-        html.Div(id='feedback-result')
+        html.Div(id='feedback-result', className='feedback-result')
     ])
 ])
 
 prediction_layout = html.Div([
-    html.H2("Student Performance Prediction - Using our best performing model (RandomForest)", className="section-title"),
-    html.Div([
-        dcc.Input(id='input-studytime', type='number', placeholder='Study Time Weekly (hrs)', className='input'),
-        dcc.Input(id='input-gpa', type='number', placeholder='GPA', className='input'),
-        dcc.Input(type='number', placeholder='Age', className='input'),
-        dcc.Input(type='number', placeholder='Absenses', className='input'),
-        dcc.Input(type='number', placeholder='Extracurricular', className='input'),
+    html.Div(className='card-section', children=[
+        html.H2("Student Performance Prediction - Using our best performing model (RandomForest)", className="section-title"),
+        html.Div(className='input-grid', children=[
+            dcc.Input(id='input-studytime', type='number', placeholder='Study Time Weekly (hrs)', className='input'),
+            dcc.Input(id='input-gpa', type='number', placeholder='GPA', className='input'),
+            dcc.Input(type='number', placeholder='Age', className='input'),
+            dcc.Input(type='number', placeholder='Absenses', className='input'),
+            dcc.Input(type='number', placeholder='Extracurricular', className='input')
+        ]),
         html.Button('Predict Grade Class', id='predict-btn', n_clicks=0, className='btn'),
-        html.Div(id='prediction-output', style={'marginTop': '20px'})
+        html.Div(id='prediction-output', className='card-section', style={'marginTop': '20px'})
     ])
 ])
+
 
 
 # -------------------- CSS -------------------- #
@@ -168,14 +185,21 @@ app.index_string = '''
     {%favicon%}
     {%css%}
     <style>
-        body, html { margin: 0; padding: 0; font-family: Arial, sans-serif; }
+        body, html { margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
         .main { display: flex; flex-direction: row; min-height: 100vh; background-color: white; color: black; }
         .main.dark { background-color: #121212; color: white; }
-        .sidebar { width: 220px; background-color: #2c3e50; color: white; padding: 20px; }
-        .main.dark .sidebar { background-color: #1e1e1e; color: white; }
+        .sidebar {
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+            transition: background-color 0.3s ease; width: 220px; background-color: #2c3e50; color: white; padding: 20px; }
+        .main.dark .sidebar {
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+            transition: background-color 0.3s ease; background-color: #1e1e1e; color: white; }
         .nav-link { display: block; color: white; margin: 10px 0; text-decoration: none; font-weight: bold; }
         .nav-link:hover { color: #18bc9c; }
-        .toggle { margin-top: 30px; padding: 10px; background: #34495e; border: none; color: white; cursor: pointer; width: 100%; }
+        .toggle {
+            border-radius: 6px;
+            transition: background 0.3s ease;
+            background-color: #1abc9c; margin-top: 30px; padding: 10px; background: #34495e; border: none; color: white; cursor: pointer; width: 100%; }
         .main-content { flex: 1; padding: 40px; background-color: inherit; color: inherit; }
         .page-title { font-size: 2rem; }
         .section-title { font-size: 1.5rem; margin-bottom: 20px; }
@@ -190,22 +214,139 @@ app.index_string = '''
             color: white !important;
         }
         .center-content {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    padding: 40px;
-    background-color: rgba(255, 255, 255, 0.85); /* slight transparency */
+            transition: all 0.3s ease;
+            transform: translateY(0);
+            animation: fadeIn 0.5s ease-in;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 40px;
+            border-radius: 10px;
+            max-width: 900px;
+            margin: 20px auto 50px auto;
+            box-shadow: 0px 0px 20px rgba(0,0,0,0.1);
+            background-color: rgba(255, 255, 255, 0.85); /* default light */
     border-radius: 10px;
     max-width: 900px;
-    margin: 50px auto;
+    margin: 0px auto 50px auto;
     box-shadow: 0px 0px 20px rgba(0,0,0,0.1);
 
 }
 
 
-    </style>
+    
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    
+        .hero-section {
+            text-align: center;
+            padding: 20px;
+            margin-bottom: 40px;
+        }
+        .hero-title {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        .hero-subtitle {
+            font-size: 1.2rem;
+            color: #555;
+        }
+        .team-section {
+            max-width: 800px;
+            margin: 0 auto 40px auto;
+        }
+        .team-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .card {
+            background-color: #f7f7f7;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        .main.dark .card {
+            background-color: #2e2e2e;
+            color: white;
+        }
+        .summary-section {
+            margin-top: 40px;
+            text-align: center;
+        }
+    
+        .card-section {
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 10px;
+            padding: 30px;
+            margin-bottom: 40px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        .main.dark .center-content {
+            background-color: rgba(30, 30, 30, 0.95);
+        }
+        .main.dark .card-section {
+            background-color: #1f1f1f;
+        }
+        .input-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .dash-table-container {
+            margin-top: 20px;
+        }
+        .feedback-container {
+            max-width: 600px;
+            margin: auto;
+        }
+        .feedback-result {
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
+    
+        .btn {
+            padding: 12px 18px;
+            margin: 5px;
+            font-size: 1rem;
+            background: linear-gradient(to right, #1abc9c, #16a085);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.2s ease;
+        }
+        .btn:hover {
+            background: linear-gradient(to right, #16a085, #1abc9c);
+            transform: scale(1.03);
+        }
+
+    
+.main.dark .dash-dropdown .Select-control {
+    background-color: #333 !important;
+    color: white !important;
+    border-color: #555;
+}
+
+.main.dark .dash-dropdown .Select-menu-outer {
+    background-color: #333 !important;
+    color: white !important;
+}
+
+.main.dark .dash-dropdown .Select-value-label,
+.main.dark .dash-dropdown .Select-placeholder {
+    color: white !important;
+}
+
+</style>
 </head>
 <body>
     {%app_entry%}
@@ -224,7 +365,7 @@ app.index_string = '''
     Input("dark-toggle", "n_clicks")
 )
 def toggle_dark_mode(n_clicks):
-    return "main dark" if n_clicks % 2 else "main"
+    return "main" if n_clicks % 2 else "main dark"
 
 @app.callback(
     Output('feedback-result', 'children'),
