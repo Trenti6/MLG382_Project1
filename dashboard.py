@@ -68,10 +68,10 @@ home_layout = html.Div([
     html.Div(className="team-section", children=[
         html.H2("👨‍👩‍👧‍👦 Meet the Team", className="section-title"),
         html.Div(className="team-grid", children=[
-            html.Div(className="card", children=[html.H4("Trent Evans"), html.P("xxx")]),
-            html.Div(className="card", children=[html.H4("Demica Smit"), html.P("xxx")]),
-            html.Div(className="card", children=[html.H4("Bianca Long"), html.P("xxx")]),
-            html.Div(className="card", children=[html.H4("Jade Riley"), html.P("xxx")]),
+            html.Div(className="card", children=[html.H4("Trent Evans"), html.P("600383")]),
+            html.Div(className="card", children=[html.H4("Demica Smit"), html.P("577875")]),
+            html.Div(className="card", children=[html.H4("Bianca Long"), html.P("600476")]),
+            html.Div(className="card", children=[html.H4("Jade Riley"), html.P("578125")]),
         ])
     ]),
     html.Div(className="summary-section", children=[
