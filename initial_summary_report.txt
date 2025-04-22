@@ -134,6 +134,6 @@ Numeric: StudyTimeWeekly, Absences, GPA saved in plots/distributions.png.
 Categorical: GradeClass, Gender, Ethnicity, ParentalSupport saved in plots/categorical_distributions.png.
 
 Conclusion:
-Dataset cleaned and saved as cleaned_student_performance_data.csv.
+Dataset cleaned and saved as DataSets/cleaned_student_performance_data.csv.
 All missing values handled and outliers capped.
 Visualizations and summaries provided for further analysis.
