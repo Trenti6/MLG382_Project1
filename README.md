@@ -1,5 +1,8 @@
 # MLG382_Project1 - 🎓 BrightPath Academy
 
+## Live application link (after 30 mins goes inactive)
+    https://mlg382-project1-hd2s.onrender.com/
+
 # Members
 
 ### Trent Evans
